@@ -1,0 +1,1 @@
+export const getInfo = info=>{return {type:"GET_INFO",payload:info}}
