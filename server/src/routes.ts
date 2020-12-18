@@ -11,5 +11,6 @@ routes.get('/users',UserController.query)
 
 routes.use(authMiddleware);
 routes.get('/',CompanyController.query)
+routes.post('/company',CompanyController.add)
 
 export default routes

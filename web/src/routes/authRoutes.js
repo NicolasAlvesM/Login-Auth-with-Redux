@@ -6,8 +6,8 @@ function AuthRoutes(){
         <Switch>
             <Route path="/login" component={LoginPage}/>
             <Route path="/dashboard">
-                <Redirect to="/login"/>
-            </Route>
+                <Redirect to="login"/>
+        </Route>
         </Switch>
         </BrowserRouter>
     )

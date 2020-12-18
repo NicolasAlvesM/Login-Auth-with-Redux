@@ -17,7 +17,7 @@ export default {
 
     async login(req:Request,res:Response){
         const {username,password}=req.body as body
-
+ 
         const user = await User.findOne({username})
 
         if(!user)

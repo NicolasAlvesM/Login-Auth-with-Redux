@@ -3,7 +3,7 @@ import { promisify } from "util"
 import {Request, Response} from 'express'
 
 export default async (req:Request, res:Response, next) => {
-    console.log('teste')
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
