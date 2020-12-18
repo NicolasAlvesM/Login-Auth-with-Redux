@@ -17,7 +17,7 @@ export default {
 
       const company = await Company.findOne({cnpj})
           if (company)
-            return res.status(505).json({error:'Empresa já existe'})
+            return res.status(505).json({error:'Empresa já existe!!'})
 
       const receivedToken = authorization?.split(' ')[1] as string
 
