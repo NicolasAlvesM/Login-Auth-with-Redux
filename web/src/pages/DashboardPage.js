@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux'
 import { logoutAction} from '../actions/userAction'
 import { useCallback, useEffect, useState } from "react"
-import {getInfo} from '../actions/dashboardAction'
+import {fetchCompanies} from '../actions/dashboardAction'
 import api from "../services/api";
 import {Button} from 'react-bootstrap'
 import '../styles/pages/dashboard.css'
@@ -21,15 +21,10 @@ function DashboardPage(){
     },[dispatch,history]) 
 
     useEffect(()=>{
-        api.get('/').then(({data})=>{   
-            dispatch(getInfo(data))
-        }).catch((err)=>{
-            if(err.response.data.error==='Token invalid')
-                handleLogout()
-        })  
-    },[dispatch,handleLogout])
+        dispatch(fetchCompanies())
+    },[dispatch])
 
-    const info = useSelector(status=>status.info)
+    const companies = useSelector( status => status.companies )
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -40,9 +35,9 @@ function DashboardPage(){
             <p className="h1">DASHBOARD</p>
             <Button variant="primary" onClick={() => setModalShow(true)}>Add</Button>
             <div className="d-flex container flex-wrap justify-content-between">
-            {info.map((item,i)=>{
+            {companies.map((item,i)=>{
                 return <div key={i} className="p-1 rounded m-3 bg-info d-flex flex-column align-items-center" style={{width:'30%'}}>
-                    <p>{item.name}</p>
+                    <p className="text-wrap">{item.name}</p>
                     <p>{item.cnpj}</p>
                     <p>{item.description}</p>
                 </div>

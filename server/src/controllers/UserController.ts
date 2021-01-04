@@ -9,14 +9,15 @@ type body={
 
 export default {
     async query(req:Request,res:Response){
-
-        const users = await User.find().populate('company')
+ 
+        const users = await User.find().populate('companies')
         
         res.json(users)
     },
 
     async login(req:Request,res:Response){
         const {username,password}=req.body as body
+
  
         const user = await User.findOne({username})
 
@@ -36,8 +37,9 @@ export default {
     
     async create(req:Request,res:Response){
         const {username,password}=req.body as body
+        console.log(username,password)
 
-        const user = await User.findOne({username})
+        const user = await User.findOne({username}).catch(err =>{console.log(err)})
 
         if(user)
             return res.status(500).json({err:"Usuario ja existe"})

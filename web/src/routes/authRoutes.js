@@ -4,7 +4,7 @@ function AuthRoutes(){
     return(
         <BrowserRouter>
         <Switch>
-            <Route path="/login" component={LoginPage}/>
+            <Route path="/" component={LoginPage}/>
             <Route path="/dashboard">
                 <Redirect to="login"/>
         </Route>

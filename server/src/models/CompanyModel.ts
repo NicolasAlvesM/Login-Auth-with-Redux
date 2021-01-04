@@ -14,7 +14,12 @@ const companySchema = new Schema({
       required: true,
       unique: true,
       index: true
+    },
+    user:{
+      type: String,
+      unique: true,
+      required: true,
     }
 })
 
-export default model('Company', companySchema,'companies');
+export default model('Company',companySchema,'companies');

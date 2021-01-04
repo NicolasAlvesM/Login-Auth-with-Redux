@@ -1,9 +1,8 @@
 import {Button,Modal} from 'react-bootstrap'
 import {useRef} from 'react'
-import api from '../services/api';
 import Input from './Input'
 import { useDispatch } from 'react-redux';
-import { addInfo } from '../actions/dashboardAction';
+import {addCompany} from '../actions/dashboardAction';
 
 function CenteredModal(props) {
 
@@ -12,17 +11,14 @@ function CenteredModal(props) {
     function handleWithUpdate(e){
         e.preventDefault()
 
-        api.post('/company',{
-            name:inputNameRef.current.value,
-            cnpj:inputCnpjRef.current.value,
-            description:inputDescRef.current.value   
-        }).then(({data})=>{
-            dispatch(addInfo(data.company))
-            props.onHide()
-        }).catch(err=>{
-            alert('Erro')
-        })
-        
+        dispatch(addCompany({
+          name:inputNameRef.current.value,
+          cnpj:inputCnpjRef.current.value,
+          description:inputDescRef.current.value   
+      }))
+      
+      props.onHide()        
+
     }
 
     const inputNameRef = useRef(null)
@@ -38,7 +34,7 @@ function CenteredModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            New Company
           </Modal.Title>
         </Modal.Header>
         <form onSubmit={handleWithUpdate}>

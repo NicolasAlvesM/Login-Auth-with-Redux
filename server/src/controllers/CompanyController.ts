@@ -7,13 +7,15 @@ export default {
   
     async query(req:Request,res:Response){
           const {userId} = req
-          const {company} = await User.findOne({_id:userId}).populate('company')
-          return res.json(company)
+
+          const {companies} = await User.findOne({_id:userId}).populate('companies')
+          
+          return res.json(companies)
     },
 
     async add(req:Request,res:Response){
-      const {authorization} = req.headers
-      const {name,cnpj,description} = req.body
+      const {authorization}   = req.headers
+      const {name,cnpj,description} = req.body.company
 
       const company = await Company.findOne({cnpj})
           if (company)
@@ -24,25 +26,22 @@ export default {
       try {
 
           const {_id} = await promisify(jwt.verify)(receivedToken,"secret");  
-          const user = await User.findOne({_id})
-          
+          const {username} = await User.findOne({_id})
           // user.company.forEach((company) => {
           //   if (company.cnpj===cnpj)
           //     return res.status(505).json({error:'Empresa ja cadastrada'})
           // })
 
           const newCompany = new Company({
-            name,cnpj,description
+            name,cnpj,description,user:username
           })
-          const savedCompany = await newCompany.save()
 
-          user.company.push(savedCompany._id)
-          user.save()
+          const savedCompany = await newCompany.save()
 
           return res.json({company:savedCompany})
 
         } catch (err) {
-
+            console.log(err)
           return res.status(401).send({error: "Token invalid"});
 
         } 

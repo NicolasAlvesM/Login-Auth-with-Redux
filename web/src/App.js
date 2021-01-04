@@ -1,29 +1,26 @@
-import {combineReducers, createStore,applyMiddleware} from 'redux'
+import {combineReducers, createStore,applyMiddleware,compose} from 'redux'
 import {Provider} from 'react-redux'
 import loginReducer from './reducers/userReducer'
 import infoReducer from './reducers/dashboardReducer'
 import Routes from './routes' 
+import {delayedMessageMiddleware,logger} from './reduxMiddlewares/middlewares'
+import ReduxThunk from 'redux-thunk'
+import {offline} from 'redux-offline'
+import defaultConfig from 'redux-offline/lib/defaults'
+import Api from 'axios'
 
-const customMiddleWare = store => next => action => {
-  const prev = store.getState()
 
-  next(action);
 
-  const label = 'My own middleware';
-  
-console.group(label);
-  console.info('%cprev state',"color:gray",prev,);
-  console.info('%caction    ',"color:lightskyblue",action);
-  console.info('%cnext state',"color:lightgreen",store.getState());
-console.groupEnd(label);
-  
+const customConfig = {
+  ...defaultConfig,
+  effect: (effect, _action) => Api(effect)
 }
 
-const allReducers = combineReducers({login:loginReducer,info:infoReducer})
+const allReducers = combineReducers({login:loginReducer,companies:infoReducer})
 
-const middlewareEnhancer = applyMiddleware(customMiddleWare)
+const middlewareEnhancer = applyMiddleware(delayedMessageMiddleware,logger,ReduxThunk)
 
-const store = createStore(allReducers,middlewareEnhancer)
+const store = createStore(allReducers,compose( middlewareEnhancer,offline(customConfig) ) )
 
 function App() {
   return (

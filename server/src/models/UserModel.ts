@@ -18,4 +18,14 @@ const userSchema = new Schema({
       }]
 })
 
+userSchema.virtual('companies',{
+  ref:'Company',
+  localField:'username',
+  foreignField:'user'
+})
+
+  userSchema.set('toObject', { virtuals: true });
+  userSchema.set('toJSON', { virtuals: true });
+
   export default model('User', userSchema, 'users');
+  

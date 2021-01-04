@@ -4,7 +4,7 @@ function AppRoutes(){
     return(
         <BrowserRouter>
         <Route path='/dashboard' component={DashboardPage}/>
-        <Route path="/login">
+        <Route path="/">
                 <Redirect to="dashboard"/>
         </Route>
         </BrowserRouter>

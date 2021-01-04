@@ -8,7 +8,6 @@ function Routes(){
     const dispatch = useDispatch()
     useEffect(()=>{
         const dados = JSON.parse(localStorage.getItem('user'))
-
         if(dados){
             const {token} = dados
             api.defaults.headers['Authorization']=`Bearer ${token}`
